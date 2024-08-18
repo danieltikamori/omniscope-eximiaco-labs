@@ -29,8 +29,8 @@ class OmniDataset(ABC):
     def get_filterable_fields(self) -> List[str]:
         pass
 
-    def get_last_six_weeks(self) -> SummarizablePowerDataFrame:
-        after, before = Weeks.get_n_weeks_dates(6)
+    def get_last_six_weeks(self, reference_date: datetime = None) -> SummarizablePowerDataFrame:
+        after, before = Weeks.get_n_weeks_dates(6, reference_date)
         return self.get(after, before)
 
     def get_specific_month(self, year: int, month: int) -> SummarizablePowerDataFrame:
