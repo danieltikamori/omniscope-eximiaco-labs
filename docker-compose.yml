@@ -1,0 +1,10 @@
+version: "3.10"
+
+services:
+  omniscope:
+    build: 
+      context: .
+    ports:
+      - "8085:80"
+    environment:
+      - OAUTHLIB_INSECURE_TRANSPORT="1"
