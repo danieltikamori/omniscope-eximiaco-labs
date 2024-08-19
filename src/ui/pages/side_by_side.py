@@ -10,6 +10,7 @@ import ui.components.dataset_selector as selector
 import ui.components.base.colors as colors
 import ui.components.base.cards as c
 import ui.components.base.title as title
+import ui.components.allocation_sidebyside_table as asbst
 
 import pandas as pd
 import numpy as np
@@ -48,51 +49,6 @@ def summarize_two_datasets_by(column, dataset1, dataset2, col_name1, col_name2):
     merged_summary = merged_summary[cols]
 
     return merged_summary
-
-
-def create_dbc_table(dataset):
-
-    dataset['Status'] = dataset['Status'].apply(c.get_status_indicator)
-    table_header = [
-        html.Thead(html.Tr([html.Th(col) for col in dataset.columns] + [html.Th('Diff')]))
-    ]
-
-    right_column = dataset.columns[-1]
-    left_column = dataset.columns[-2]
-
-    rows = []
-    for i in range(len(dataset)):
-        style = {}
-        if dataset.iloc[i][left_column] == 0:
-            style = {"color": "green"}
-        elif dataset.iloc[i][right_column] == 0:
-            style = {"color": "red"}
-
-        rows.append(
-            html.Tr(
-                [
-                    html.Td(dataset.iloc[i][col], style=style) for col in dataset.columns
-                ] +
-                [
-                    html.Td(
-                        (
-                            c.bottom(dataset.iloc[i][left_column], dataset.iloc[i][right_column])
-                            if dataset.iloc[i][right_column] > 0 else ""
-                        ), style=style
-                    )
-                ]
-            )
-        )
-
-    table_body = [
-        html.Tbody(
-            rows
-        )
-    ]
-
-    table = dbc.Table(table_header + table_body, bordered=True, hover=True, responsive=True)
-
-    return table
 
 
 def render_kind_summary(kind: str, left_ds, right_ds, left: str, right: str):
@@ -141,7 +97,7 @@ def render_kind_summary(kind: str, left_ds, right_ds, left: str, right: str):
     )
 
     summary_by_client_table = dbc.Row(
-        c.create_card(f'{kind} Summary by Client', create_dbc_table(merged)),
+        c.create_card(f'{kind} Summary by Client', asbst.render(merged)),
         style={'marginTop': '10px'}
     )
 
@@ -154,7 +110,7 @@ def render_kind_summary(kind: str, left_ds, right_ds, left: str, right: str):
     )
 
     summary_by_worker_table = dbc.Row(
-        c.create_card(f'{kind} Summary by Worker', create_dbc_table(merged)),
+        c.create_card(f'{kind} Summary by Worker', asbst.render(merged)),
         style={'marginTop': '10px'}
     )
 

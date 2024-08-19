@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 import pandas as pd
+import numpy as np
 
 from models.base.cache import cache
 from models.base.powerdataframe import SummarizablePowerDataFrame
@@ -126,3 +127,40 @@ class TimesheetDataset(OmniDataset):
                 )
 
         return data
+
+
+def get_six_weeks_allocation_analysis(
+        df: pd.DataFrame,
+        date_of_interest: datetime
+):
+    week_day = (date_of_interest.weekday() + 1) % 7
+    week = Weeks.get_week_string(date_of_interest)
+
+    df = df[df['NDayOfWeek'] <= week_day]
+    df_left = df[df['Week'] != week]
+    df_right = df[df['Week'] == week]
+
+    summary_left = df_left.groupby(['WorkerName', 'Week'])['TimeInHs'].sum().reset_index()
+    summary_left = summary_left.groupby('WorkerName')['TimeInHs'].mean().reset_index()
+    summary_left.rename(columns={'TimeInHs': 'Mean'}, inplace=True)
+
+    summary_right = df_right.groupby('WorkerName')['TimeInHs'].sum().reset_index()
+    summary_right.rename(columns={'TimeInHs': 'Current'}, inplace=True)
+    merged_summary = pd.merge(summary_left, summary_right, on='WorkerName', how='outer').fillna(0)
+    merged_summary.rename(columns={'WorkerName': 'Worker'}, inplace=True)
+
+    merged_summary['Total'] = merged_summary['Current'] + merged_summary['Mean']
+    merged_summary = merged_summary.sort_values(by='Total', ascending=False).reset_index(drop=True)
+    merged_summary.drop(columns=['Total'], inplace=True)
+
+    conditions = [
+        merged_summary['Current'] > merged_summary['Mean'],
+        merged_summary['Current'] < merged_summary['Mean'],
+        merged_summary['Current'] == merged_summary['Mean']
+    ]
+    choices = [1, -1, 0]
+
+    merged_summary['Status'] = np.select(conditions, choices, default=0)
+
+    cols = ['Status', 'Worker', 'Mean', 'Current']
+    return merged_summary[cols]
