@@ -1,17 +1,12 @@
 import dash
-
 from dash import html, dcc, Input, Output, State, callback
 
 import globals
-import ui.components.case_header as ch
-import ui.components.work_summary_tabs as wst
-import ui.components.case_updates_list as cul
-import ui.components.dataset_selector as selector
-
 import ui.components.allocation_by_kind as abk
-import ui.components.allocation_by_working_day as abwd
 import ui.components.allocation_by_worker as abw
-import ui.components.allocation_by_case as by_case
+import ui.components.allocation_by_working_day as abwd
+import ui.components.case_header as ch
+import ui.components.dataset_selector as selector
 import ui.components.last_six_weeks_work_summary as lswws
 
 dash.register_page(__name__, path_template="/cases/<slug>", title='Omniscope')

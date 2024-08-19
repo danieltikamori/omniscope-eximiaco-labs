@@ -2,16 +2,13 @@ import dash
 from dash import html, dcc, Input, Output, State, callback
 
 import globals
-import ui.components.sponsor_header as sh
-import ui.components.dataset_selector as selector
-import ui.components.allocation_by_kind as abk
-import ui.components.allocation_by_working_day as abwd
-import ui.components.allocation_by_worker as abw
 import ui.components.allocation_by_case as by_case
+import ui.components.allocation_by_kind as abk
+import ui.components.allocation_by_worker as abw
+import ui.components.allocation_by_working_day as abwd
+import ui.components.dataset_selector as selector
 import ui.components.last_six_weeks_work_summary as lswws
-
-import ui.components.base.colors as colors
-import ui.components.base.cards as c
+import ui.components.sponsor_header as sh
 
 dash.register_page(__name__, path_template="/sponsors/<slug>", title='Omniscope')
 
