@@ -4,6 +4,7 @@ from dash import html, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
 from datetime import datetime, timedelta
 import pandas as pd
+import numpy as np
 from dash_bootstrap_components import Card
 
 import globals
@@ -77,9 +78,10 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                 dbc.CardBody(
                     [
                         html.H4(f'{total_hours:.1f}', style={'color': total_hours_color}, className="mb-2"),
-                        c.bottom(average_hours, total_hours) if (not is_future and total_hours > 0 and average_hours > 0) else html.Div(
+                        c.bottom(average_hours, total_hours) if (
+                                    not is_future and total_hours > 0 and average_hours > 0) else html.Div(
                             "N/A", style={'color': '#333333'}
-                            ),
+                        ),
                         #html.P("Total de horas", className="small text-muted mb-0"),
                     ], className="d-flex flex-column text-center p-3"
                 ),
@@ -92,11 +94,11 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                                         html.Small(
                                             format_date_with_suffix(worst_day), className="text-start",
                                             style={'color': worst_color, 'font-size': '0.6rem'}
-                                            ),
+                                        ),
                                         html.Small(
                                             f'{worst_day_hours:.1f}', className="text-start",
                                             style={'color': worst_color}
-                                            ),
+                                        ),
                                     ],
                                     className="flex-column"
                                 ),
@@ -107,7 +109,7 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                                     [
                                         html.Small(
                                             f'{average_hours:.1f}', style={'color': avg_color}, className="text-center"
-                                            ),
+                                        ),
                                     ],
                                     className="flex-column"
                                 ),
@@ -119,10 +121,10 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                                         html.Small(
                                             format_date_with_suffix(best_day), className="text-end",
                                             style={'color': best_color, 'font-size': '0.6rem'}
-                                            ),
+                                        ),
                                         html.Small(
                                             f'{best_day_hours:.1f}', className="text-end", style={'color': best_color}
-                                            ),
+                                        ),
                                     ],
                                     className="flex-column"
                                 ),
@@ -142,8 +144,60 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
     )
 
 
+def create_dbc_table(dataset):
+
+    if len(dataset) == 0:
+        return html.Div()
+
+    dataset['Status'] = dataset['Status'].apply(c.get_status_indicator)
+    table_header = [
+        html.Thead(html.Tr([html.Th(col) for col in dataset.columns] + [html.Th('Diff')]))
+    ]
+
+    right_column = dataset.columns[-1]
+    left_column = dataset.columns[-2]
+
+    rows = []
+    for i in range(len(dataset)):
+        style = {}
+        if dataset.iloc[i][left_column] == 0:
+            style = {"color": "green"}
+        elif dataset.iloc[i][right_column] == 0:
+            style = {"color": "red"}
+
+        rows.append(
+            html.Tr(
+                [
+                    html.Td(dataset.iloc[i]['Status'], style=style),
+                    html.Td(dataset.iloc[i]['Worker'], style=style),
+                    html.Td(f'{dataset.iloc[i][left_column]:.1f}', style=style),
+                    html.Td(f'{dataset.iloc[i][right_column]:.1f}', style=style),
+                ] +
+                [
+                    html.Td(
+                        (
+                            c.bottom(dataset.iloc[i][left_column], dataset.iloc[i][right_column])
+                            if dataset.iloc[i][right_column] > 0 else ""
+                        ), style=style
+                    )
+                ]
+            )
+        )
+
+    table_body = [
+        html.Tbody(
+            rows
+        )
+    ]
+
+    table = dbc.Table(table_header + table_body, bordered=True, hover=True, responsive=True)
+
+    return table
+
+
 def create_week_row(date_of_interest: datetime, kind: str) -> html.Div:
     start_of_week, end_of_week = Weeks.get_week_dates(date_of_interest)
+    week = Weeks.get_week_string(date_of_interest)
 
     dataset = globals.datasets.timesheets.get_last_six_weeks(date_of_interest)
     df = dataset.data
@@ -160,14 +214,47 @@ def create_week_row(date_of_interest: datetime, kind: str) -> html.Div:
         for d in dates
     ]
 
+    week_day = (date_of_interest.weekday() + 1) % 7
+
+    df = df[df['NDayOfWeek'] <= week_day]
+
+    df_left = df[df['Week'] != week]
+    df_right = df[df['Week'] == week]
+
+    summary_left = df_left.groupby(['WorkerName', 'Week'])['TimeInHs'].sum().reset_index()
+    summary_left = summary_left.groupby('WorkerName')['TimeInHs'].mean().reset_index()
+    summary_left.rename(columns={'TimeInHs': 'Mean'}, inplace=True)
+
+    summary_right = df_right.groupby('WorkerName')['TimeInHs'].sum().reset_index()
+    summary_right.rename(columns={'TimeInHs': 'Current'}, inplace=True)
+    merged_summary = pd.merge(summary_left, summary_right, on='WorkerName', how='outer').fillna(0)
+    merged_summary.rename(columns={'WorkerName': 'Worker'}, inplace=True)
+
+    merged_summary['Total'] = merged_summary['Current'] + merged_summary['Mean']
+    merged_summary = merged_summary.sort_values(by='Total', ascending=False).reset_index(drop=True)
+    merged_summary.drop(columns=['Total'], inplace=True)
+
+    conditions = [
+        merged_summary['Current'] > merged_summary['Mean'],
+        merged_summary['Current'] < merged_summary['Mean'],
+        merged_summary['Current'] == merged_summary['Mean']
+    ]
+    choices = [1, -1, 0]
+
+    merged_summary['Status'] = np.select(conditions, choices, default=0)
+
+    cols = ['Status', 'Worker', 'Mean', 'Current']
+    merged_summary = merged_summary[cols]
+
     return html.Div(
         [
             dbc.Row(
                 [
                     dbc.Col(card, width=True)
                     for card in cards
-                ]
+                ], style={'marginBottom': '10px'}
             ),
+            create_dbc_table(merged_summary)
         ]
     )
 

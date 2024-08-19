@@ -34,6 +34,7 @@ class TimesheetDataset(OmniDataset):
             try:
                 row['date'] = row['date'].date()
                 row['day_of_week'] = row['date'].strftime('%A')
+                row['n_day_of_week'] = (row['date'].weekday() + 1) % 7
                 row['month'] = row['date'].strftime('%B')
                 row['year'] = row['date'].strftime('%Y')
                 row['year_month'] = row['date'].strftime('%Y-%m')
