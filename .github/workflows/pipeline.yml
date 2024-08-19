@@ -17,12 +17,12 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Build the Docker image
-      run: docker build . --tag 339713015367.dkr.ecr.us-east-1.amazonaws.com/omniscope:${{ github.run_id }} --tag 339713015367.dkr.ecr.us-east-1.amazonaws.com/omniscope:latest
+      run: docker build . --tag 256696114092.dkr.ecr.us-east-1.amazonaws.com/omniscope/app:${{ github.run_id }} --tag 256696114092.dkr.ecr.us-east-1.amazonaws.com/omniscope/app:latest
 
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
-        role-to-assume: arn:aws:iam::339713015367:role/GithubIdentityProviderRole
+        role-to-assume: arn:aws:iam::256696114092:role/GithubDeploymentRole
         role-session-name: GithubSession
         aws-region: us-east-1
 
@@ -31,8 +31,8 @@ jobs:
 
     - name: Push Docker images
       run: |
-        docker image push 339713015367.dkr.ecr.us-east-1.amazonaws.com/omniscope:${{ github.run_id }}
-        docker image push 339713015367.dkr.ecr.us-east-1.amazonaws.com/omniscope:latest
+        docker image push 256696114092.dkr.ecr.us-east-1.amazonaws.com/omniscope/app:${{ github.run_id }}
+        docker image push 256696114092.dkr.ecr.us-east-1.amazonaws.com/omniscope/app:latest
 
   # deploy:
   #   runs-on: ubuntu-latest
