@@ -164,3 +164,33 @@ def get_six_weeks_allocation_analysis(
 
     cols = ['Status', 'Worker', 'Mean', 'Current']
     return merged_summary[cols]
+
+
+class TimesheetDateAnalysis:
+    def __init__(self, df, date_of_interest: datetime):
+        day_of_week = date_of_interest.strftime('%A')
+
+        ds = df[df['Date'] == date_of_interest.date()]
+        self.total_hours = ds['TimeInHs'].sum()
+
+        ds = df[df['Date'] != date_of_interest.date()]
+        ds = ds[ds['DayOfWeek'] == day_of_week]
+
+        ds = ds.groupby('Date')['TimeInHs'].sum()
+
+        if len(ds) > 0:
+            self.best_day = ds.idxmax()
+            self.best_day_hours = ds.max()
+
+            self.worst_day = ds.idxmin()
+            self.worst_day_hours = ds.min()
+
+            self.average_hours = ds.mean()
+        else:
+            self.best_day = '-'
+            self.best_day_hours = 0
+
+            self.worst_day = '-'
+            self.worst_day_hours = 0
+
+            self.average_hours = 0

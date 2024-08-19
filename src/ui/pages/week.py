@@ -16,7 +16,6 @@ import ui.components.base.title as title
 import ui.components.allocation_sidebyside_table as asbst
 from ui.helpers.beaulty import format_date_with_suffix
 
-
 dash.register_page(__name__, path='/week', name='Omniscope')
 
 def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.DataFrame) -> Card:
@@ -31,29 +30,7 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
     best_color = 'Green' if not is_future else '#333333'
     total_hours_color = 'white' if not is_future else '#333333'
 
-    ds = dataset[dataset['Date'] == date.date()]
-    total_hours = ds['TimeInHs'].sum()
-    ds = dataset[dataset['Date'] != date.date()]
-    ds = ds[ds['DayOfWeek'] == day_of_week]
-
-    ds = ds.groupby('Date')['TimeInHs'].sum()
-
-    if len(ds) > 0:
-        best_day = ds.idxmax()
-        best_day_hours = ds.max()
-
-        worst_day = ds.idxmin()
-        worst_day_hours = ds.min()
-
-        average_hours = ds.mean()
-    else:
-        best_day = '-'
-        best_day_hours = 0
-
-        worst_day = '-'
-        worst_day_hours = 0
-
-        average_hours = 0
+    s = tsds.TimesheetDateAnalysis(dataset, date)
 
     return dbc.Card(
         html.A(
@@ -67,9 +44,9 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                 ),
                 dbc.CardBody(
                     [
-                        html.H4(f'{total_hours:.1f}', style={'color': total_hours_color}, className="mb-2"),
-                        c.bottom(average_hours, total_hours) if (
-                                    not is_future and total_hours > 0 and average_hours > 0) else html.Div(
+                        html.H4(f'{s.total_hours:.1f}', style={'color': total_hours_color}, className="mb-2"),
+                        c.bottom(s.average_hours, s.total_hours) if (
+                                    not is_future and s.total_hours > 0 and s.average_hours > 0) else html.Div(
                             "N/A", style={'color': '#333333'}
                         ),
                     ], className="d-flex flex-column text-center p-3"
@@ -81,11 +58,11 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                                 dbc.Row(
                                     [
                                         html.Small(
-                                            format_date_with_suffix(worst_day), className="text-start",
+                                            format_date_with_suffix(s.worst_day), className="text-start",
                                             style={'color': worst_color, 'font-size': '0.6rem'}
                                         ),
                                         html.Small(
-                                            f'{worst_day_hours:.1f}', className="text-start",
+                                            f'{s.worst_day_hours:.1f}', className="text-start",
                                             style={'color': worst_color}
                                         ),
                                     ],
@@ -97,7 +74,7 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                                 dbc.Row(
                                     [
                                         html.Small(
-                                            f'{average_hours:.1f}', style={'color': avg_color}, className="text-center"
+                                            f'{s.average_hours:.1f}', style={'color': avg_color}, className="text-center"
                                         ),
                                     ],
                                     className="flex-column"
@@ -108,11 +85,11 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                                 dbc.Row(
                                     [
                                         html.Small(
-                                            format_date_with_suffix(best_day), className="text-end",
+                                            format_date_with_suffix(s.best_day), className="text-end",
                                             style={'color': best_color, 'font-size': '0.6rem'}
                                         ),
                                         html.Small(
-                                            f'{best_day_hours:.1f}', className="text-end", style={'color': best_color}
+                                            f'{s.best_day_hours:.1f}', className="text-end", style={'color': best_color}
                                         ),
                                     ],
                                     className="flex-column"
