@@ -13,12 +13,12 @@ def render(ps: ProductOrService):
                     dbc.CardBody(
                         [
                             dcc.Markdown(ps.name, dangerously_allow_html=True,
-                                         className="card-text text-center text-decoration-none")
+                                         className="card-text text-light text-center text-decoration-none")
                         ]
                     )
                 ],
                 style={'margin': '10px'},
-                className='icon-card border-0 shadow-sm rounded card-hover',
+                className='icon-card bg-dark border-0 shadow-sm rounded card-hover',
             ),
             href=ps.omni_url,
             className='text-decoration-none'
