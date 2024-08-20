@@ -16,7 +16,8 @@ import ui.components.base.title as title
 import ui.components.allocation_sidebyside_table as asbst
 from ui.helpers.beaulty import format_date_with_suffix
 
-dash.register_page(__name__, path='/week', name='Omniscope')
+dash.register_page(__name__, path='/week-review', name='Omniscope')
+
 
 def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.DataFrame) -> Card:
     day_of_week = date.strftime('%A')
@@ -46,7 +47,7 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                     [
                         html.H4(f'{s.total_hours:.1f}', style={'color': total_hours_color}, className="mb-2"),
                         c.bottom(s.average_hours, s.total_hours) if (
-                                    not is_future and s.total_hours > 0 and s.average_hours > 0) else html.Div(
+                                not is_future and s.total_hours > 0 and s.average_hours > 0) else html.Div(
                             "N/A", style={'color': '#333333'}
                         ),
                     ], className="d-flex flex-column text-center p-3"
@@ -74,7 +75,8 @@ def create_day_card(date: datetime, date_of_interest: datetime, dataset: pd.Data
                                 dbc.Row(
                                     [
                                         html.Small(
-                                            f'{s.average_hours:.1f}', style={'color': avg_color}, className="text-center"
+                                            f'{s.average_hours:.1f}', style={'color': avg_color},
+                                            className="text-center"
                                         ),
                                     ],
                                     className="flex-column"

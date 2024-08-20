@@ -8,6 +8,7 @@ dash.register_page(__name__, path_template="/", title='Omniscope')
 
 # Dados dos tiles
 areas_of_interest_tiles = [
+    ("Week Review", "fas fa-calendar-check", "/week-review"),
     ("Side-by-side", "fas fa-columns", "/side-by-side"),
     ("Allocation", "fas fa-tasks", "/allocation"),
     ("Sales Funnel B2B", "fas fa-chart-line", "/sales-funnel-b2b"),
