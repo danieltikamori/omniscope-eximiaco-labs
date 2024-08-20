@@ -8,7 +8,7 @@ import ui.components.allocation_by_worker as abw
 import ui.components.allocation_by_working_day as abwd
 import ui.components.dataset_selector as selector
 import ui.components.last_six_weeks_work_summary as lswws
-import ui.components.sponsor_header as sh
+import ui.components.headers.sponsor_header as sh
 
 dash.register_page(__name__, path_template="/sponsors/<slug>", title='Omniscope')
 

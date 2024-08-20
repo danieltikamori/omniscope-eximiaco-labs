@@ -6,7 +6,7 @@ import ui.components.allocation_by_case as by_case
 import ui.components.allocation_by_kind as abk
 import ui.components.allocation_by_worker as abw
 import ui.components.allocation_by_working_day as abwd
-import ui.components.client_header as ch
+import ui.components.headers.client_header as ch
 import ui.components.dataset_selector as selector
 import ui.components.last_six_weeks_work_summary as lswws
 

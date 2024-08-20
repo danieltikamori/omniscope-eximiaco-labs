@@ -9,7 +9,7 @@ import ui.components.allocation_by_worker as abw
 import ui.components.allocation_by_working_day as abwd
 import ui.components.dataset_selector as selector
 import ui.components.last_six_weeks_work_summary as lswws
-import ui.components.worker_header as wh
+import ui.components.headers.worker_header as wh
 
 dash.register_page(__name__, path_template="/account-managers/<slug>", title='Omniscope')
 
