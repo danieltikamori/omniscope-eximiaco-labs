@@ -268,12 +268,10 @@ class Ontology(SemanticModel):
 
     @property
     def offers_cases_relations(self) -> Dict[int, list[int]]:
-        # Assume that this method fetches a dictionary where keys are offer IDs and values are lists of case IDs.
         return self.wp.fetch_jet_relations(44)
 
     @property
     def cases_offers_relations(self) -> Dict[int, list[int]]:
-        # Transform the offers_cases_relations dictionary into cases_offers_relations dictionary
         offers_cases = self.offers_cases_relations
         result = {}
 

@@ -21,6 +21,7 @@ class Case(BaseModel):
     status: Optional[str] = None
     last_updated: Optional[datetime] = None
     sponsor: Optional[str] = None
+    offers_ids: Optional[List[int]] = []
 
     @property
     def errors(self):
@@ -155,7 +156,8 @@ class CasesRepository:
                 ) if onto_case.everhour_projects_ids else [],
                 ontology_info=onto_case,
                 tracker_info=[],
-                sponsor=onto_case.sponsor
+                sponsor=onto_case.sponsor,
+                offers_ids=onto_case.offers
             )
 
             for idp in new_case.everhour_projects_ids:

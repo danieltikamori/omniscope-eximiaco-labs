@@ -13,7 +13,7 @@ class ProductOrService(BaseModel):
 
     @property
     def omni_url(self):
-        return f'/sponsors/{self.slug}'
+        return f'/products-or-services/{self.slug}'
 
 
 class ProductsOrServicesRepository:
@@ -40,4 +40,8 @@ class ProductsOrServicesRepository:
     def get_all(self) -> Dict[int, ProductOrService]:
         self.__ensure_data()
         return self.__data
+
+    def get_by_id(self, id: int) -> ProductOrService:
+        self.__ensure_data()
+        return self.__data.get(id)
 

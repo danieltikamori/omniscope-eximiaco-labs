@@ -1,8 +1,11 @@
-from models.domain.cases import Case
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from typing import List
+
+from models.domain import Case, ProductOrService, ProductsOrServicesRepository
 import globals
-from models.omnidatasets import TimesheetDataset
+
+
 
 def render(case: Case):
     if case.client_id:
@@ -28,6 +31,14 @@ def render(case: Case):
         dbc.Badge(text, color=color, className="me-1", style={'width': 'auto'})
         for condition, text, color in badge_data if condition
     ]
+
+    p_repo = globals.omni.products_or_services
+
+    products_or_services: List[ProductOrService] = [
+        p_repo.get_by_id(offer)
+        for offer in case.offers_ids
+    ]
+
 
     return html.Div(
         [
@@ -78,6 +89,19 @@ def render(case: Case):
                                     className="lead text-light mb-2",
                                     style={'text-align': 'left'}
                                 ),
+                                html.Div(
+                                    [
+                                        html.A(
+                                            pos.name,
+                                            href=pos.omni_url,
+                                            className="ms-1 small text-info",
+                                        )
+                                        for pos in products_or_services
+                                    ],
+                                    className="d-flex flex-wrap gap-1 mt-1",
+                                    style={'text-align': 'left'}
+                                )
+                                ,
                                 html.Div(
                                     badges,
                                     className="d-flex flex-wrap gap-1 mt-1",
