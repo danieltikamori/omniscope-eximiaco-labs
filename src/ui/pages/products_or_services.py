@@ -3,27 +3,13 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html
 
 import globals
+import ui.components.product_or_service_card as pos_card
 from models.domain import ProductOrService
 
 import ui.components.base.title as title
 
 dash.register_page(__name__, title='Omniscope')
 
-
-def create_product_or_service_card(ps: ProductOrService):
-    return dbc.Col(
-        dbc.Card(
-            [
-                dbc.CardImg(src=ps.cover_image_url, style={'width': 'auto'}, top=True),
-                dbc.CardBody(
-                    [
-                        dcc.Markdown(ps.name, dangerously_allow_html=True)
-                    ]
-                )
-            ], style={'margin': '10px'}
-        ),
-        xs=12, sm=6, md=4, lg=3, xl=3
-    )
 
 
 def layout():
@@ -33,7 +19,7 @@ def layout():
         title.render('Our Products or Services', level=3),
         dbc.Row(
             [
-                create_product_or_service_card(item)
+                pos_card.render(item)
                 for item in items
             ]
         )
