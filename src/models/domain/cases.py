@@ -1,6 +1,5 @@
 from models.syntactic.wordpress import EventDetail
-from models.semantic.ontology import Ontology, Case
-from models.semantic.timetracker import TimeTracker, Project
+from models.semantic import Ontology, Case, TimeTracker, Project
 import models.semantic.ontology as o
 from typing import Optional, Dict, List
 from models.domain.clients import ClientsRepository

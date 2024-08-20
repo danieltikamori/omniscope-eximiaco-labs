@@ -5,11 +5,9 @@ from pydantic import BaseModel
 
 import models.semantic.ontology as o
 import models.syntactic.everhour as t
-from models.semantic.insights import Insights
-from models.semantic.ontology import Ontology
-from models.semantic.tasksmanager import TasksManager
-from models.semantic.timetracker import TimeTracker
-from models.semantic.salesfunnel import SalesFunnelB2B
+
+from models.semantic import Insights, Ontology, TasksManager, TimeTracker, SalesFunnelB2B
+
 
 class WorkerKind(Enum):
     ALL = "All"
@@ -50,8 +48,6 @@ class Worker(BaseModel):
             #     result.append(f"LTE:{len(ltes)}")
 
         return result
-
-
 
     @property
     def is_recognized(self):
@@ -138,19 +134,23 @@ class WorkersRepository:
 
     def get_by_ontology_user_id(self, user_id: int) -> Worker:
         all_workers = self.get_all().values()
-        return next((
-            worker
-            for worker in all_workers
-            if worker.ontology_user_id == user_id
-        ), None)
+        return next(
+            (
+                worker
+                for worker in all_workers
+                if worker.ontology_user_id == user_id
+            ), None
+        )
 
     def get_by_insights_user_id(self, user_id: int) -> Worker:
         all_workers = self.get_all().values()
-        return next((
-            worker
-            for worker in all_workers
-            if worker.insights_user_id == user_id
-        ), None)
+        return next(
+            (
+                worker
+                for worker in all_workers
+                if worker.insights_user_id == user_id
+            ), None
+        )
 
     def get_by_pipedrive_user_id(self, user_id: int) -> Worker:
         all_workers = self.get_all().values()
@@ -161,7 +161,6 @@ class WorkersRepository:
                 if worker.pipedrive_user_id == user_id
             ), None
         )
-
 
     def __build_data(self) -> Dict[int, Worker]:
 
@@ -220,7 +219,6 @@ class WorkersRepository:
                 )
                 neg_id = neg_id - 1
 
-
         def find_matching_key(workers_dict, full_name):
             if full_name.endswith('.'):
                 base_name = full_name[:-1]
@@ -262,7 +260,6 @@ class WorkersRepository:
                     todoist_user_id=user.id,
                 )
                 neg_id -= 1
-
 
         self.__data = {
             worker.id: worker

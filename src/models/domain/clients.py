@@ -1,9 +1,9 @@
 from models.domain.workers import WorkersRepository, Worker
-from models.semantic.ontology import Ontology
-from models.semantic.timetracker import TimeTracker
+from models.semantic import Ontology, TimeTracker
 
 import models.semantic.ontology as o
 import models.syntactic.everhour as t
+
 from pydantic import BaseModel
 from typing import Optional, List, Dict
 import models.helpers.numbers as numbers

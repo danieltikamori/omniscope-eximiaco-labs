@@ -19,6 +19,7 @@ def render():
         {'label': 'Cases', 'value': '/cases'},
         {'label': 'Sponsors', 'value': '/sponsors'},
         {'label': 'Side by Side', 'value': '/side-by-side'},
+        {'label': 'Week Review', 'value': '/week-review'},
         {'label': 'About', 'value': '/about'}
     ]
 

@@ -1,4 +1,4 @@
-from models.semantic.tasksmanager import TasksManager, Project
+from models.semantic import TasksManager, Project
 from typing import List, Dict, Optional
 
 
