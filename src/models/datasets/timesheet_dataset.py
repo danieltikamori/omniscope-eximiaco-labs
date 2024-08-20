@@ -207,3 +207,24 @@ class TimesheetDateAnalysis:
             self.worst_day_hours = 0
 
             self.average_hours = 0
+
+
+class TimeSheetFieldSummary:
+    def __init__(self, df: pd.DataFrame, field: str):
+        self.total_hours = df['TimeInHs'].sum()
+
+        self.grouped_total_hours = df.groupby([field, 'Kind'])['TimeInHs'].sum().unstack().fillna(0)
+        self.grouped_total_hours['Total'] = self.grouped_total_hours.sum(axis=1)
+        self.grouped_total_hours = self.grouped_total_hours.sort_values('Total', ascending=False)
+
+        self.unique = df[field].nunique()
+        self.avg_hours = self.total_hours / self.unique
+        self.std_hours = df.groupby([field])['TimeInHs'].sum().std()
+
+        cumulative_hours = self.grouped_total_hours['Total'].cumsum()
+        cumulative_hours_80 = cumulative_hours[cumulative_hours <= cumulative_hours.iloc[-1] * 0.80]
+        if len(cumulative_hours_80) == 0:
+            self.allocation_80 = 0
+        else:
+            self.allocation_80 = \
+                cumulative_hours[cumulative_hours <= cumulative_hours.iloc[-1] * 0.80].index[-1]

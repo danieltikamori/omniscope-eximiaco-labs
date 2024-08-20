@@ -5,6 +5,7 @@ from dash import html, callback, Input, Output
 
 import globals
 import ui.components.allocation.allocation_by_client as abc
+import ui.components.allocation.allocation_by_product_or_service as abpos
 import ui.components.allocation.allocation_by_case as by_case
 import ui.components.allocation.allocation_by_kind as abk
 import ui.components.allocation.allocation_by_worker as abw
@@ -38,6 +39,8 @@ def update_content_area(dataset_slug):
     return dbc.Container(
         [
             abk.render(data),
+            html.Hr(style={'marginBottom': '10px', 'marginTop': '10px'}),
+            abpos.render(data),
             html.Hr(style={'marginBottom': '10px', 'marginTop': '10px'}),
             abc.render(data),
             html.Hr(style={'marginBottom': '10px', 'marginTop': '10px'}),
