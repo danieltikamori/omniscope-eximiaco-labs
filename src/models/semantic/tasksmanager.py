@@ -1,11 +1,8 @@
-import pandas as pd
-import os
-
 from settings import api_settings
 from datetime import datetime
 
 from models.base.semanticmodel import SemanticModel
-from models.syntactic.todoist import Todoist
+from models.syntactic import Todoist
 from models.base.powerdataframe import PowerDataFrame
 
 import models.syntactic.todoist as t
@@ -13,8 +10,7 @@ import models.syntactic.todoist as t
 from models.dashboard.x9 import x9
 
 from typing import List, Optional
-from pydantic import BaseModel, AnyUrl
-
+from pydantic import BaseModel
 
 
 class Task(BaseModel):
@@ -84,9 +80,9 @@ class Project(BaseModel):
     @property
     def expected_due_date(self) -> datetime:
         data = [
-                task.due
-                for task in self.tasks
-                if task.due is not None
+            task.due
+            for task in self.tasks
+            if task.due is not None
         ]
 
         return max(

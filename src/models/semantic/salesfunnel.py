@@ -6,7 +6,7 @@ from typing import List, Optional
 from datetime import date, datetime
 
 from models.base.semanticmodel import SemanticModel
-from models.semantic.ontology import Ontology
+from models.semantic import Ontology
 from models.syntactic.pipedrive import Pipedrive
 from models.helpers.weeks import Weeks
 import models.helpers.slug as slug

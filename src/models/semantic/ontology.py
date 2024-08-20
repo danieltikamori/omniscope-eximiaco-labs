@@ -9,7 +9,7 @@ import validators
 from pydantic import BaseModel, HttpUrl
 
 from models.base.semanticmodel import SemanticModel
-from models.syntactic.wordpress import Wordpress, Post, User, EventDetail
+from models.syntactic import Wordpress, Post, User, EventDetail
 
 
 class Class(BaseModel):

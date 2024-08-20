@@ -1,9 +1,6 @@
 from models.domain.sponsors import SponsorsRepository
-from models.semantic.insights import Insights
-from models.semantic.ontology import Ontology
-from models.semantic.timetracker import TimeTracker
-from models.semantic.tasksmanager import TasksManager
-from models.semantic.salesfunnel import SalesFunnelB2B
+
+from models.semantic import Insights, Ontology, TimeTracker, TasksManager, SalesFunnelB2B
 
 from models.domain.workers import WorkersRepository
 from models.domain.clients import ClientsRepository

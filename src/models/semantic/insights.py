@@ -4,7 +4,7 @@ from typing import List, Dict
 from pydantic import BaseModel, HttpUrl
 
 from models.base.semanticmodel import SemanticModel
-from models.syntactic.wordpress import Wordpress, User, Post
+from models.syntactic import Wordpress, User, Post
 
 
 class Insight(BaseModel):

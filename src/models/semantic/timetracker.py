@@ -3,14 +3,13 @@ from datetime import datetime
 from settings import api_settings
 import pandas as pd
 
-
 from models.base.powerdataframe import PowerDataFrame, SummarizablePowerDataFrame
 from models.base.semanticmodel import SemanticModel
 from models.helpers.weeks import Weeks
-from models.semantic.ontology import Ontology
+from models.semantic import Ontology
 
-from typing import List, Optional, Dict
-from models.syntactic.everhour import Everhour, User, Client
+from typing import Optional, Dict
+from models.syntactic import Everhour, User, Client
 import models.syntactic.everhour as e
 
 import pytz
