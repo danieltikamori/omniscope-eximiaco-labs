@@ -157,9 +157,19 @@ class Entry(BaseModel):
     author_name: str
     creation_date: datetime
     creation_week: str
+    cover_image_url: Optional[str] = None
 
     @staticmethod
     def from_wordpress_post(post: Post, class_name: str, author: User) -> 'Entry':
+        default_cover_image_url = '/assets/who_is_it.jpeg'
+        cover_image_url = default_cover_image_url
+        yoast_head_json = post.yoast_head_json
+        if isinstance(yoast_head_json, dict):
+            og_image = yoast_head_json.get('og_image', [])
+            if og_image and 'url' in og_image[0]:
+                potential_cover_image_url = og_image[0]['url']
+                cover_image_url = potential_cover_image_url if potential_cover_image_url else default_cover_image_url
+
         return Entry(
             id=post.id,
             title=post.title.rendered,
@@ -169,6 +179,7 @@ class Entry(BaseModel):
             author_name=author.name,
             creation_date=post.date_gmt,
             creation_week=post.creation_week,
+            cover_image_url=cover_image_url
         )
 
 
@@ -281,6 +292,15 @@ class Ontology(SemanticModel):
         posts = self.wp.fetch_posts('cases')
         return {
             post.id: Case.from_wordpress_post(post, cases_offers, cases_clients)
+            for post in posts
+        }
+
+    @property
+    def offers(self) -> Dict[int, Entry]:
+        posts = self.wp.fetch_posts('ofertas')
+        authors = self.authors
+        return {
+            post.id: Entry.from_wordpress_post(post, 'ofertas', authors[post.author])
             for post in posts
         }
 

@@ -133,6 +133,7 @@ class Post(BaseModel):
     categories: Optional[List[int]] = None
     tags: Optional[List[int]] = None
     acf: Optional[Acf] = None
+    yoast_head_json: Optional[Dict[str, object]] = None
     _links: Dict[str, List[Dict[str, Any]]]
 
     @property
@@ -141,6 +142,12 @@ class Post(BaseModel):
 
     @validator('acf', pre=True, always=True)
     def set_acf_none_if_list(cls, v):
+        if isinstance(v, list):
+            return None
+        return v
+
+    @validator('yoast_head_json', pre=True, always=True)
+    def set_yhj_none_if_list(cls, v):
         if isinstance(v, list):
             return None
         return v
@@ -185,13 +192,11 @@ class Wordpress:
         total_pages = 1
 
         while page <= total_pages:
-            #print(f'Loading page {page}')
             params['page'] = page
             response = self.session.get(api_url, params=params)
             response.raise_for_status()
 
             result = response.json()
-            #print(result)
             all_results.extend(result)
 
             total_pages = int(response.headers.get('X-WP-TotalPages', 1))

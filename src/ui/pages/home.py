@@ -22,6 +22,7 @@ about_us_tiles = [
     ("Account Managers", "fas fa-briefcase", "/account-managers"),
     ("Clients", "fas fa-users", "/clients"),
     ("Sponsors", "fas fa-handshake", "/sponsors"),
+    ("Products and Services", "fas fa-box", "/products-or-services"),
     ("Cases", "fas fa-folder-open", "/cases"),
     ("Projects", "fas fa-project-diagram", "/projects"),
 ]

@@ -1,19 +1,14 @@
-from models.syntactic import everhour
-from models.syntactic import pipedrive
-from models.syntactic import todoist
-from models.syntactic import wordpress
-
-from everhour import (
+from models.syntactic.everhour import (
     Appointment, Client, Everhour, Project, User,
 )
 
-from pipedrive import (
+from models.syntactic.pipedrive import (
     Activity, Client, Deal, Note, Organization, Person, Pipedrive, Stage, User,
 )
 
-from todoist import (Collaborator, Folder, Project, Task, Todoist,)
+from models.syntactic.todoist import (Collaborator, Folder, Project, Task, Todoist,)
 
-from wordpress import (
+from models.syntactic.wordpress import (
     Acf, CommentStatus, Content, EventDetail,
     Excerpt, GUID, PingStatus, Post, PostStatus,
     PostType, Title, User, Wordpress, logger,

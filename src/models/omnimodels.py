@@ -1,5 +1,12 @@
 from models.semantic import Insights, Ontology, TimeTracker, TasksManager, SalesFunnelB2B
-from models.domain import WorkersRepository, ClientsRepository, CasesRepository, ProjectsRepository, SponsorsRepository
+from models.domain import (
+    WorkersRepository,
+    ClientsRepository,
+    CasesRepository,
+    ProjectsRepository,
+    SponsorsRepository,
+    ProductsOrServicesRepository
+)
 
 from models.helpers.weeks import Weeks
 
@@ -23,6 +30,7 @@ class OmniModels:
         self.cases = CasesRepository(self.ontology, self.tracker, self.clients)
         self.projects = ProjectsRepository(self.tasksmanager)
         self.sponsors = SponsorsRepository(self.cases)
+        self.products_or_services = ProductsOrServicesRepository(self.ontology)
 
     def get_tasks_for_worker_df(self, worker_id) -> list:
         worker = self.workers.get_by_id(worker_id)
