@@ -1,12 +1,5 @@
-from models.domain.sponsors import SponsorsRepository
-
 from models.semantic import Insights, Ontology, TimeTracker, TasksManager, SalesFunnelB2B
-
-from models.domain.workers import WorkersRepository
-from models.domain.clients import ClientsRepository
-from models.domain.cases import CasesRepository
-from models.domain.projects import ProjectsRepository
-from models.domain.sponsors import SponsorsRepository
+from models.domain import WorkersRepository, ClientsRepository, CasesRepository, ProjectsRepository, SponsorsRepository
 
 from models.helpers.weeks import Weeks
 
@@ -55,33 +48,6 @@ class OmniModels:
         df = df.apply(enrich_row, axis=1)
 
         return SummarizablePowerDataFrame(df)
-
-
-    # @cache
-    # def get_last_six_weeks_insights_df(self) -> SummarizablePowerDataFrame:
-    #     starting, ending = Weeks.get_n_weeks_dates(6)
-    #     entries = self.insights.fetch_insights(starting, ending)
-    #     data = [
-    #         entry.dict()
-    #         for entry in entries
-    #     ]
-    #     df = pd.DataFrame(data)
-    #
-    #     def enrich_row(row):
-    #         worker = self.workers.get_by_insights_user_id(row['publisher_id'])
-    #         row['worker_name'] = worker.name if worker else None
-    #         row['worker_slug'] = worker.slug if worker else None
-    #         row['worker_omni_url'] = worker.omni_url if worker else None
-    #         row['worker'] = f"<a href='{worker.omni_url}'>{worker.name}</a>"
-    #
-    #         return row
-    #
-    #     df = df.apply(enrich_row, axis=1)
-    #
-    #     result = (SummarizablePowerDataFrame(df)
-    #               .filter_by('PublisherName', not_equals_to='admin'))
-    #
-    #     return result
 
     @cache
     def get_salesfunnelb2b_df(self) -> SummarizablePowerDataFrame:
