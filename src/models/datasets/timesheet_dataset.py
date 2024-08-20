@@ -1,14 +1,18 @@
 import logging
 from datetime import datetime
+from typing import List
 
 import pandas as pd
 import numpy as np
+
+import globals
 
 from models.base.cache import cache
 from models.base.powerdataframe import SummarizablePowerDataFrame
 from models.datasets.omni_dataset import OmniDataset
 from models.helpers.weeks import Weeks
 from models.omnimodels import OmniModels
+from models.domain import ProductOrService
 
 
 class TimesheetDataset(OmniDataset):
@@ -25,6 +29,7 @@ class TimesheetDataset(OmniDataset):
     @cache
     def get(self, after: datetime, before: datetime) -> SummarizablePowerDataFrame:
         raw = self.models.tracker.get_appointments(after, before)
+        ps_repo = globals.omni.products_or_services
         data = [
             ap.to_dict()
             for ap in raw
@@ -52,6 +57,13 @@ class TimesheetDataset(OmniDataset):
                 row['sponsor'] = case.sponsor
                 row['case'] = f"<a href='{case.omni_url}'>{case.title}</a>"
                 # row['case_omni_url'] = case.omni_url if case else None
+
+                products_or_services: List[ProductOrService] = [
+                    ps_repo.get_by_id(offer).name
+                    for offer in case.offers_ids
+                ]
+
+                row['products_or_services'] = ';'.join(products_or_services)
 
                 client = self.models.clients.get_by_id(case.client_id) if case.client_id else None
                 row['client_id'] = client.id if client else "N/A"
@@ -107,6 +119,7 @@ class TimesheetDataset(OmniDataset):
                 'ClientId',
                 'ClientName',
                 'ClientOmniUrl',
+                'ProductsOrServices',
                 'Client',
                 'AccountManagerName',
                 'AccountManagerSlug'

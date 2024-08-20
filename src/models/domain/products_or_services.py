@@ -45,3 +45,8 @@ class ProductsOrServicesRepository:
         self.__ensure_data()
         return self.__data.get(id)
 
+    def get_by_slug(self, slug: str) -> ProductOrService:
+        self.__ensure_data()
+        all_pos = self.__data.values()
+        return next((pos for pos in all_pos if pos.slug == slug), None)
+

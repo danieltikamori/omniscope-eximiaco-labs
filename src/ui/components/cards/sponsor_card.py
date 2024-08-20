@@ -37,7 +37,7 @@ def render(sponsor: Sponsor):
                     className="position-relative pb-4 text-light"  # Bootstrap class for padding bottom and text color
                 ),
                 href=sponsor.omni_url,
-                className="text-decoration-none text-reset"  # Bootstrap classes to reset link styles
+                className="text-decoration-none text-reset"
             ),
             className='icon-card bg-dark border-0 shadow-sm rounded card-hover',  # Bootstrap classes for card styling and custom class
             style={
