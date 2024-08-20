@@ -13,7 +13,7 @@ import models.datasets.timesheet_dataset as tsds
 
 import ui.components.base.cards as c
 import ui.components.base.title as title
-import ui.components.allocation_sidebyside_table as asbst
+import ui.components.allocation.allocation_sidebyside_table as asbst
 from ui.helpers.beaulty import format_date_with_suffix
 
 dash.register_page(__name__, path='/week-review', name='Omniscope')

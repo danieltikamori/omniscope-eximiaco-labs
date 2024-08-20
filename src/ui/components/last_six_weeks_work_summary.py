@@ -2,7 +2,7 @@ from dash import html
 
 from models.base.powerdataframe import PowerDataFrame
 import ui.components.weekly_projected_vs_actual_graph as wpa
-import ui.components.allocation_by_kind_diary as abkd
+import ui.components.allocation.allocation_by_kind_diary as abkd
 import ui.components.base.colors as colors
 import ui.components.base.cards as c
 

@@ -4,12 +4,12 @@ import pandas as pd
 from dash import html, callback, Input, Output
 
 import globals
-import ui.components.allocation_by_client as abc
-import ui.components.allocation_by_case as by_case
-import ui.components.allocation_by_kind as abk
-import ui.components.allocation_by_worker as abw
+import ui.components.allocation.allocation_by_client as abc
+import ui.components.allocation.allocation_by_case as by_case
+import ui.components.allocation.allocation_by_kind as abk
+import ui.components.allocation.allocation_by_worker as abw
 import ui.components.dataset_selector as selector
-import ui.components.allocation_by_working_day as abwd
+import ui.components.allocation.allocation_by_working_day as abwd
 import ui.components.last_six_weeks_work_summary as lswws
 
 dash.register_page(__name__, title='Omniscope')

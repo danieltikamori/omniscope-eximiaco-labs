@@ -3,14 +3,14 @@ from dash import html, callback, Input, Output, dcc
 import dash_bootstrap_components as dbc
 
 from models.base.powerdataframe import PowerDataFrame
-from models.domain.workers import Worker, WorkerKind
+from models.domain.workers import WorkerKind
 import models.helpers.slug as sl
 
 import ui.components.dataset_selector as selector
 import ui.components.base.colors as colors
 import ui.components.base.cards as c
 import ui.components.base.title as title
-import ui.components.allocation_sidebyside_table as asbst
+import ui.components.allocation.allocation_sidebyside_table as asbst
 
 import pandas as pd
 import numpy as np

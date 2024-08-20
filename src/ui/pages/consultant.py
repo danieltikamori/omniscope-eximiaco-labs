@@ -3,10 +3,10 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc, Output, Input, State, callback
 
 import globals
-import ui.components.allocation_by_case as by_case
-import ui.components.allocation_by_client as abc
-import ui.components.allocation_by_kind as abk
-import ui.components.allocation_by_working_day as abwd
+import ui.components.allocation.allocation_by_case as by_case
+import ui.components.allocation.allocation_by_client as abc
+import ui.components.allocation.allocation_by_kind as abk
+import ui.components.allocation.allocation_by_working_day as abwd
 import ui.components.dataset_selector as selector
 import ui.components.last_six_weeks_work_summary as lswws
 import ui.components.headers.worker_header as wh
