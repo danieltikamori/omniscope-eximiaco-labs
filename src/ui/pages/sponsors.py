@@ -3,7 +3,7 @@ import globals
 
 from dash import html
 import dash_bootstrap_components as dbc
-import ui.components.sponsor_card as sc
+import ui.components.cards.sponsor_card as sc
 import ui.components.base.title as title
 
 dash.register_page(__name__, title='Omniscope')

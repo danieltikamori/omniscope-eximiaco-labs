@@ -1,7 +1,7 @@
 import dash
-from dash import html, dcc
+from dash import html
 import dash_bootstrap_components as dbc
-import ui.components.client_card as cc
+import ui.components.cards.client_card as cc
 
 import globals
 import ui.components.base.title as title

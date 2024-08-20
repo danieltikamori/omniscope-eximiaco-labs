@@ -1,6 +1,6 @@
 from dash import html
 import dash_bootstrap_components as dbc
-import ui.components.case_card as cc
+import ui.components.cards.case_card as cc
 from ui.components.base import title
 import globals
 

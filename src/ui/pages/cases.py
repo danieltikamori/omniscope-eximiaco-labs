@@ -3,9 +3,8 @@ from dash import html
 import dash_bootstrap_components as dbc
 import ui.components.base.title as title
 import ui.components.cases_summary as cs
-from datetime import datetime
 
-import ui.components.case_card as cc
+import ui.components.cards.case_card as cc
 import globals
 
 dash.register_page(__name__, title='Omniscope')

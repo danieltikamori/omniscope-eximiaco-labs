@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 
 import globals
 from models.domain.workers import WorkerKind
-import ui.components.worker_card as wc
+import ui.components.cards.worker_card as wc
 import ui.components.base.title as title
 
 dash.register_page(__name__, title='Omniscope')

@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 
 import globals
 from datetime import datetime
-import ui.components.project_card as pc
+import ui.components.cards.project_card as pc
 import ui.components.base.title as title
 
 dash.register_page(__name__, title='Omniscope')
