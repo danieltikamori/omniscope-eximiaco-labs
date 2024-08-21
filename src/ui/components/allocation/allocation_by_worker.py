@@ -12,7 +12,7 @@ def render(data: pd.DataFrame):
     if len(data) == 0:
         return html.Div()
 
-    tfs = TimeSheetFieldSummary('WorkerName')
+    tfs = TimeSheetFieldSummary(data, 'WorkerName')
 
     return html.Div(
         [
