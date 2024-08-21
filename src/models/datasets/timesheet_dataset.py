@@ -5,8 +5,6 @@ from typing import List
 import pandas as pd
 import numpy as np
 
-import globals
-
 from models.base.cache import cache
 from models.base.powerdataframe import SummarizablePowerDataFrame
 from models.datasets.omni_dataset import OmniDataset
@@ -29,7 +27,7 @@ class TimesheetDataset(OmniDataset):
     @cache
     def get(self, after: datetime, before: datetime) -> SummarizablePowerDataFrame:
         raw = self.models.tracker.get_appointments(after, before)
-        ps_repo = globals.omni.products_or_services
+        ps_repo = self.models.products_or_services
         data = [
             ap.to_dict()
             for ap in raw
