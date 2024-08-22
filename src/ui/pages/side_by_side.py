@@ -114,11 +114,25 @@ def render_kind_summary(kind: str, left_ds, right_ds, left: str, right: str):
         style={'marginTop': '10px'}
     )
 
+    merged = summarize_two_datasets_by(
+        'ProductsOrServices',
+        left_ds,
+        right_ds,
+        globals.datasets.get_dataset_name_by_slug(left),
+        globals.datasets.get_dataset_name_by_slug(right)
+    )
+
+    summary_by_products_or_services_table = dbc.Row(
+        c.create_card('Summary by Products or Services', asbst.render(merged)),
+        style={'marginTop': '10px'}
+    )
+
     return html.Div(
         [
             kpis,
             summary_by_client_table,
             summary_by_worker_table,
+            summary_by_products_or_services_table,
         ]
     )
 
@@ -297,6 +311,8 @@ def update_side_by_side_content(left, right, account_managers):
     result.append(
         render_kind_summary('Consulting', left_ds, right_ds, left, right)
     )
+
+
 
     # unique_clients_left = left_ds.data['ClientName'].nunique()
     # unique_clients_right = right_ds.data['ClientName'].nunique()

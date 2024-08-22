@@ -226,3 +226,16 @@ class TimeSheetFieldSummary:
         else:
             self.allocation_80 = \
                 cumulative_hours[cumulative_hours <= cumulative_hours.iloc[-1] * 0.80].index[-1]
+
+
+class TimesheetCommonQueries:
+    def __init__(self, df: pd.DataFrame):
+        self.df = df
+
+    def list_products_or_services(self) -> List[str]:
+        separated_products_or_services = set()
+
+        for items in self.df['ProductsOrServices'].unique():
+            separated_products_or_services.update(items.split(';'))
+
+        return list(separated_products_or_services)
