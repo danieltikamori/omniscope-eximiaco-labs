@@ -3,12 +3,12 @@
 Omniscope is a powerful tool developed by EximiaCo with the goal of integrating information from various sources into a single system, ensuring that data is consistent and accessible.
 
 ## Key Features
-
-- **Python Development**: Omniscope was built in Python and serves as a reference project showcasing the best practices in software architecture that EximiaCo advocates.
-
 - **Vision Consolidation**: Omniscope consolidates data from different systems, ensuring that all information is aligned and consistent.
 
 - **Interactive Dashboards**: The tool enables the creation of interactive dashboards, making data visualization and analysis efficient and user-friendly.
+
+## Architecture overview
+![containers.png](doc/diagrams/containers.png)
 
 ## Integrated Tools
 
