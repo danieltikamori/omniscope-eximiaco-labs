@@ -53,11 +53,15 @@ For external contributors, please note that currently, we do not provide access 
 
 **Note:** Most of the ontology data does not require special keys.
 
-## Workflow
+## Contributing with Code
 
 We use a **Feature Branch** workflow to keep development organized and to minimize conflicts. Here’s the recommended process:
 
-1. **Sync Your Fork:**
+1. **Ensure an Issue Exists:**
+- Before starting any implementation, make sure there is an Issue that clearly describes what needs to be done. If no Issue exists, create one and align with the project maintainers to ensure it is assigned to you. This prevents duplicate efforts and ensures everyone is on the same page.
+
+
+2. **Sync Your Fork:**
 - Before starting on a new feature or fix, sync your fork with the upstream repository to get the latest changes.
 
 ```bash
@@ -72,10 +76,10 @@ git pull upstream main
 git checkout -b feature/your-feature-name
 ```
 
-3. **Make Changes:**
+4. **Make Changes:**
 - Implement your changes in the codebase. Ensure that your code follows the [Code Standards](#code-standards) described below.
 
-4. **Commit Your Changes:**
+5. **Commit Your Changes:**
 - Commit your changes with a clear and concise message in English.
 
 ```bash
@@ -83,21 +87,21 @@ git add .
 git commit -m "Add feature: description of feature"
 ```
 
-5. **Push Your Feature Branch:**
+6. **Push Your Feature Branch:**
 - Push your feature branch to your forked repository on GitHub.
 
 ```bash
 git push origin feature/your-feature-name
 ```
 
-6. **Create a Pull Request:**
+7. **Create a Pull Request:**
 - Go to your forked repository on GitHub and create a pull request (PR) from your feature branch to the main branch of the upstream repository.
 - Ensure that your PR is linked to an existing Issue, or create a new Issue if necessary.
 
-7. **Code Review:**
+8. **Code Review:**
 - One of the maintainers will review your PR. You may be asked to make additional changes before your PR is merged.
 
-8. **Merge and Cleanup:**
+9. **Merge and Cleanup:**
 - Once your PR is approved and merged, you can delete your feature branch locally and remotely.
 
 ```bash
